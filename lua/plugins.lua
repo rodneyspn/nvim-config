@@ -1,6 +1,8 @@
-require "helpers/globals"
-
 return {
+  {
+    "folke/neodev.nvim",
+    opts = {},
+  },
   {
     "github/copilot.vim",
     event = "InsertEnter",
@@ -18,14 +20,14 @@ return {
       require("mason").setup()
       mason_lspconfig.setup({
         ensure_installed = {
-          "lua_ls",             -- LSP for Lua language
-          "pyright",            -- LSP for Python
+          "lua_ls",  -- LSP for Lua language
+          "pyright", -- LSP for Python
         }
       });
       -- Setup every needed language server in lspconfig
       mason_lspconfig.setup_handlers {
-        function (server_name)
-          lspconfig[server_name].setup {}
+        function(server_name)
+          lspconfig[server_name].setup({})
         end,
       }
     end
@@ -47,7 +49,7 @@ return {
           highlight = "NeoTreeFileName",
         },
         window = {
-          width = 50,
+          width = 30,
           mappings = {
             ["l"] = "open",
             ["h"] = "close_node",
@@ -73,7 +75,7 @@ return {
     "nvim-treesitter/nvim-treesitter",
     lazy = false,
     build = ":TSUpdate",
-    event = {"BufReadPost", "BufNewFile"},
+    event = { "BufReadPost", "BufNewFile" },
     config = function()
       require("nvim-treesitter.configs").setup({
         ensure_installed = {
@@ -96,14 +98,19 @@ return {
     end
   },
   {
+    "lewis6991/gitsigns.nvim",
+    event = { "BufReadPost", "BufNewFile" },
+    config = function()
+      require("gitsigns").setup()
+    end
+  },
+  {
     "folke/tokyonight.nvim",
     lazy = false,
     priority = 1000,
     style = "moon",
     config = function()
-      cmd([[colorscheme tokyonight-moon]])
+      vim.cmd([[colorscheme tokyonight-moon]])
     end
   }
 }
-
--- vim:tabstop=2 shiftwidth=2 expandtab syntax=lua foldmethod=marker foldlevelstart=0 foldlevel=0
